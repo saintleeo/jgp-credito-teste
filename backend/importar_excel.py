@@ -1,42 +1,27 @@
 import pandas as pd
-from sqlalchemy import create_engine, Column, Integer, String, Float, Date
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from models import Base
+from database import engine
 import os
 
-#Configs do Banco
-DB_PATH = "../data/jgp_credito.db"
-engine = create_engine(f"sqlite:///{DB_PATH}")
-Base = declarative_base()
+def importar():
+    caminho = "../data/Primario_2025.xlsx"
+    if not os.path.exists(caminho):
+        print("Erro: Arquivo não encontrado")
+        return
 
-#Tabelas
-class Emissao(Base):
-    __tablename__ = 'emissoes'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    data = Column(Date, nullable=False)
-    tipo = Column(String, nullable=False)
-    emissor = Column(String, nullable=False)
-    valor = Column(Float, nullable=False)
-    link = Column(String)
-
-Base.metadata.create_all(engine)
-
-def importar_dados(caminho_excel):
-    print("Lendo o arquivo..")
-    df = pd.read_excel(caminho_excel)
-
-    #tratando dados
+    df = pd.read_excel(caminho)
+    # Limpeza básica (padrão estágio: simples e eficiente)
     df.columns = [c.lower() for c in df.columns]
     df['data'] = pd.to_datetime(df['data']).dt.date
-    df['valor'] = pd.to_numeric(df['valor'], errors='coerce').fillna(0).astype(float)
+    df['valor'] = pd.to_numeric(df['valor'], errors='coerce').fillna(0)
 
-    print("Salvando no SQLite")
-    df.to_sql('emissoes', con=engine, if_exists='replace', index=False)
-    print("Importou!")
+    # Cria a tabela no banco
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+    
+    # Salva os dados
+    df.to_sql('emissoes', con=engine, if_exists='append', index=False)
+    print("Dados importados com sucesso!")
 
 if __name__ == "__main__":
-    arquivo = "../data/Primario_2025.xlsx"
-    if os.path.exists(arquivo):
-        importar_dados(arquivo)
-    else:
-        print("Arquivo não encontrado!")
+    importar()
