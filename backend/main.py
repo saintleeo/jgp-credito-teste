@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from routes import emissoes
 from fastapi.staticfiles import StaticFiles
