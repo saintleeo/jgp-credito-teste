@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
+from datetime import datetime
 from database import SessionLocal
 from models import Emissao
 from typing import Optional
@@ -100,35 +101,49 @@ def listar_id(id: int):
         db.close()
 
 @router.put("/{id}")
-def editar_id(id: int, novos_dados: dict):
+def editar_id(id: int, novos_dados: dict = Body(...)): # Adicionado Body(...)
     db = SessionLocal()
-
     try:
         emissao_db = db.query(Emissao).filter(Emissao.id == id).first()
 
         if not emissao_db:
-            raise HTTPException(status_code=404, detail="Emissão não encontrada para edição!")
+            raise HTTPException(status_code=404, detail="Emissão não encontrada!")
 
+        # Atualização simples e direta
         if "data" in novos_dados:
-            emissao_db.data = novos_dados["data"]
+            try:
+                # Converte a string 'YYYY-MM-DD' em um objeto date do Python
+                data_string = novos_dados["data"]
+                emissao_db.data = datetime.strptime(data_string, "%Y-%m-%d").date()
+            except ValueError:
+                raise HTTPException(status_code=400, detail="Formato de data inválido. Use AAAA-MM-DD")
+        
         if "tipo" in novos_dados:
-            emissao_db.tipo = novos_dados["tipo"]
+            emissao_db.tipo = str(novos_dados["tipo"]).upper().strip()
+            
         if "emissor" in novos_dados:
-            emissao_db.emissor = novos_dados["emissor"]
+            emissao_db.emissor = str(novos_dados["emissor"]).strip()
+
         if "valor" in novos_dados:
-            emissao_db.valor = novos_dados["valor"]
+            try:
+                # Converte e arredonda antes de salvar
+                emissao_db.valor = round(float(novos_dados["valor"]), 2)
+            except (ValueError, TypeError):
+                raise HTTPException(status_code=400, detail="Valor numérico inválido")
+
         if "link" in novos_dados:
             emissao_db.link = novos_dados["link"]
 
         db.commit()
         db.refresh(emissao_db)
-
         return emissao_db
-
+    
+    except HTTPException as http_e:
+        raise http_e
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=400, detail=f"Erro ao atualizar: {str(e)}")
-        
+        # Esse print aparecerá no seu terminal onde o Python está rodando
+        print(f"ERRO DE SISTEMA: {e}") 
+        raise HTTPException(status_code=400, detail=str(e))
     finally:
         db.close()
-

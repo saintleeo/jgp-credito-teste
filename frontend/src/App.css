@@ -1,10 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+body, 
+.app-container, 
+.detalhes-wrapper {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #334155; /* Um cinza escuro mais suave que o preto puro */
+}
 
 .app-container {
   max-width: 1000px;
   margin: 40px auto;
   font-family: sans-serif;
 }
-
 
 .filter-box {
   display: flex;
@@ -17,9 +25,13 @@
   justify-content: center;
   align-items: center;
 }
+
 .filter-box input,
 .filter-box select,
 .filter-box button {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
   height: 40px;
   padding: 8px;
   border: 1px solid #ccc;
@@ -28,9 +40,8 @@
   box-sizing: border-box;
 }
 
-
 .btn-limpar:hover {
-  background-color: #a71d2a; 
+  background-color: #a71d2a;
 }
 
 table {
@@ -45,11 +56,19 @@ td {
   border-bottom: 1px solid #eee;
   text-align: left;
 }
-th {
-  background: #003366;
-  color: white;
+
+td {
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
+th {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  background: #003366;
+}
 
 .stats-container {
   display: flex;
@@ -75,7 +94,6 @@ th {
   color: #003366;
 }
 
-
 button {
   padding: 8px 15px;
   cursor: pointer;
@@ -88,26 +106,20 @@ button:hover {
   background: #004488;
 }
 
-
-.detalhes-container {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
 .form-group {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaço entre a label e o input */
 }
+
 .form-group label {
-  display: block;
-  color: #666;
+  font-weight: 600;
   font-size: 0.9rem;
-  margin-bottom: 5px;
+  color: #555;
 }
 
 input.input-alterado {
-  border: 2px solid #ffa500; 
+  border: 2px solid #ffa500;
   background-color: #fff9f0;
 }
 
@@ -117,7 +129,6 @@ input.input-alterado {
   margin-top: 5px;
   font-weight: bold;
 }
-
 
 .tabela-wrapper {
   max-height: 400px;
@@ -134,8 +145,25 @@ table thead th {
   z-index: 10;
   background-color: #003366;
   color: white;
+  border-bottom: 2px solid #ddd;
 }
 
+.th-ordenavel {
+  /* Mantém o sticky que definimos acima, mas precisa de relative 
+     para o menu suspenso se posicionar dentro dele */
+  position: sticky !important;
+  top: 0;
+}
+
+.menu-suspenso {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100; /* Muito maior que o th */
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  /* ... restante do seu estilo ... */
+}
 .tag-CRI {
   background: #e3f2fd;
   color: #1976d2;
@@ -165,3 +193,313 @@ table thead th {
   border-radius: 4px;
   font-weight: bold;
 }
+
+/* Centraliza o card na tela inteira */
+.detalhes-wrapper {
+  position: fixed; /* Fixa o fundo na tela toda, ignorando os pais */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Largura total da janela do navegador */
+  height: 100vh; /* Altura total da janela do navegador */
+  background-color: #e5e1e1; /* O cinza de fundo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Garante que fique na frente de qualquer tela branca */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* O Card estilizado */
+.detalhes-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 550px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+  position: relative; /* Mantém o card dentro do wrapper */
+}
+
+/* Grid para os campos ficarem organizados */
+.detalhes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas */
+  gap: 20px; /* Espaço entre os inputs */
+  margin-bottom: 30px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+/* Títulos e Labels */
+.detalhes-titulo {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #003366;
+  color: #333;
+}
+
+.form-group label {
+  font-family: "Inter", sans-serif;
+  font-weight: 600; /* Peso Semi-negrito */
+  font-size: 0.75rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+/* Botões */
+.btn-voltar-top {
+  background: none;
+  border: none;
+  color: #666; /* Um cinza neutro em vez de azul */
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 5px 0;
+  transition: color 0.2s; /* Transição suave */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Hover Suave */
+.btn-voltar-top:hover {
+  color: #333; /* Escurece levely o cinza, sem ficar azul */
+  text-decoration: underline; /* Adiciona apenas o sublinhado */
+  background: none; /* Garante que não apareça fundo azul */
+}
+
+.btn-salvar-detalhes {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.btn-salvar-detalhes:active {
+  transform: scale(0.98);
+}
+
+.input-normal {
+  font-family: "Inter", sans-serif;
+  font-weight: 400; /* Peso Normal */
+  padding: 12px;
+  border: 2px solid #ced4da; /* Borda mais grossa e escura */
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f8f9fa; /* Fundo levemente cinza no input */
+  color: #495057;
+  transition: all 0.2s ease-in-out;
+}
+
+.input-normal:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #ffffff; /* Fica branco puro ao digitar */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+}
+
+.input-alterado {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.input-alterado {
+  border: 2px solid #ffc107;
+  background-color: #fffdec;
+}
+
+.th-ordenavel {
+  position: relative; /* Necessário para o menu se posicionar em relação a ele */
+}
+
+.header-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.btn-filtro-icone {
+  background: none;
+  border: none;
+  color: #fff; /* Supondo que seu header seja escuro */
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.btn-filtro-icone:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* A CAIXINHA SUSPENSA */
+.menu-suspenso {
+  position: absolute;
+  top: 100%; /* Aparece logo abaixo do título */
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100; /* Garante que fique por cima de tudo */
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.menu-suspenso button {
+  background: none;
+  border: none;
+  color: #333;
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.menu-suspenso button:hover {
+  background: #f0f4f8;
+  color: #0056b3;
+}
+
+.btn-filtro-icone {
+  background: rgba(255, 255, 255, 0.1); /* Um fundo bem clarinho */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  transition: all 0.2s;
+}
+
+.btn-filtro-icone:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1); /* Dá um zoom de leve no ícone */
+}
+
+/* Garante que o menu suspenso não herde cores estranhas */
+.menu-suspenso button {
+  color: #333 !important; /* Texto escuro dentro do menu branco */
+  font-weight: normal;
+}
+
+.testar-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background-color: #e7f1ff;
+  color: #007bff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.testar-link:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.input-moeda-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.simbolo-monetario {
+  position: absolute;
+  left: 12px;
+  font-weight: bold;
+  color: #555;
+  pointer-events: none;
+}
+
+.input-com-prefixo {
+  padding-left: 40px !important; /* Abre espaço para o R$ não atropelar o número */
+}
+
+.dashboard-container {
+  padding: 20px;
+}
+
+.cards-resumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.card-resumo {
+  background: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.grafico-wrapper {
+  width: 100%;
+  min-height: 280px;
+}
+
+.dashboard {
+  display: flex;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 260px;
+}
+
+.dashboard-chart {
+  flex: 1;
+  min-height: 250px;
+}
+
+.card {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.card h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.card strong {
+  font-size: 20px;
+}
+
+.chart-title {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
