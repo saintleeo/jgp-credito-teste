@@ -31,17 +31,17 @@ A aplicação segue uma arquitetura **cliente-servidor**, onde:
 
 * Python 3
 * FastAPI
-* SQLAlchemy
+* SQLAlchemy (Utilizado para mapear as tabelas do banco como classes Python, facilitando manutenção)
 * SQLite
-* Pandas / OpenPyXL (para importação de Excel)
+* Pandas / OpenPyXL (Biblioteca robusta para ETL)
 
 ### Frontend
 
-* React (Vite)
+* React (Vite, framework ágil para interfaces modernas e reativas)
 * JavaScript (ES6+)
 * CSS puro
 * Recharts (visualização de dados)
-* Axios (requisições HTTP)
+* Axios (Para gerenciar as requisições assíncronas entre o navegador e a AP)
 
 ### Outros
 
@@ -71,6 +71,11 @@ A aplicação segue uma arquitetura **cliente-servidor**, onde:
 │       ├── __pycache__/     
 │       └── emissoes.py 
 ```
+
+### Estratégias
+
+* Modularização: Utilização de APIRouter para separar rotas de lógica de sistema, facilitando a manutenibilidade.
+
 ### Principais Endpoints
 
 | Método | Rota              | Descrição                             |
