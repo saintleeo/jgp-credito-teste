@@ -7,7 +7,6 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 app.include_router(emissoes.router)
-app.mount("/", StaticFiles(directory="../frontend/dist", html=True), name="frontend")
 
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
@@ -23,3 +22,7 @@ app.add_middleware(
 def home():
     return {"mensagem": "API da rodando com sucesso!"}
 
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
