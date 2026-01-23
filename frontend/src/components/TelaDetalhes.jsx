@@ -7,7 +7,10 @@ function TelaDetalhes({ emissao, onVoltar }) {
   const [emissor, setEmissor] = useState(emissao.emissor);
   const [tipo, setTipo] = useState(emissao.tipo);
   const [data, setData] = useState(emissao.data);
-  const [valor, setValor] = useState(emissao.valor);
+  const [valor, setValor] = useState(String(emissao.valor));
+
+
+  const [erros, setErros] = useState({});
 
   const foiAlterado =
     emissor !== emissao.emissor ||
@@ -15,21 +18,46 @@ function TelaDetalhes({ emissao, onVoltar }) {
     data !== emissao.data ||
     Number(valor) !== Number(emissao.valor);
 
+  function validar() {
+    const novosErros = {};
+
+    if (!data) novosErros.data = "Data é obrigatória";
+    else if (new Date(data) > new Date())
+      novosErros.data = "Data não pode ser futura";
+
+    if (!tipo) novosErros.tipo = "Tipo é obrigatório";
+
+    if (!emissor || emissor.trim().length < 3)
+      novosErros.emissor = "Emissor deve ter ao menos 3 caracteres";
+
+    if (!valor || Number(valor) < 0)
+      novosErros.valor = "Valor não deve ser negativo!";
+
+    setErros(novosErros);
+
+    return Object.keys(novosErros).length === 0;
+  }
+
   const salvarNoPython = async () => {
     try {
-      await api.put(`/emissoes/${emissao.id}`, {
-        emissor,
-        tipo,
-        data,
-        valor: Number(valor),
-      });
+      const payload = {};
+  
+      if (emissor !== emissao.emissor) payload.emissor = emissor;
+      if (tipo !== emissao.tipo) payload.tipo = tipo;
+      if (data !== emissao.data) payload.data = data;
+      if (Number(valor) !== Number(emissao.valor)) {
+        payload.valor = Number(valor);
+      }
+  
+      await api.put(`/emissoes/${emissao.id}`, payload);
+  
       alert("Alterações salvas com sucesso.");
       onVoltar();
-    } catch {
-      alert("Erro ao salvar alterações");
+    } catch (err) {
+      alert(err.response?.data?.detail || "Erro ao salvar alterações");
     }
   };
-
+  
   return (
     <div className="detalhes-wrapper">
       <div className="detalhes-card">
@@ -46,8 +74,13 @@ function TelaDetalhes({ emissao, onVoltar }) {
               type="date"
               value={data}
               onChange={(e) => setData(e.target.value)}
-              className="input-normal"
+              className={
+                data !== emissao.data ? "input-alterado" : "input-normal"
+              }
             />
+            {erros.data && (
+              <span className="aviso-alteracao">{erros.data}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -55,13 +88,18 @@ function TelaDetalhes({ emissao, onVoltar }) {
             <select
               value={tipo}
               onChange={(e) => setTipo(e.target.value)}
-              className="input-normal"
+              className={
+                tipo !== emissao.tipo ? "input-alterado" : "input-normal"
+              }
             >
               <option value="CRI">CRI</option>
               <option value="CRA">CRA</option>
               <option value="DEB">DEB</option>
               <option value="NC">NC</option>
             </select>
+            {erros.tipo && (
+              <span className="aviso-alteracao">{erros.tipo}</span>
+            )}
           </div>
 
           <div className="form-group full-width">
@@ -70,8 +108,13 @@ function TelaDetalhes({ emissao, onVoltar }) {
               type="text"
               value={emissor}
               onChange={(e) => setEmissor(e.target.value)}
-              className="input-normal"
+              className={
+                emissor !== emissao.emissor ? "input-alterado" : "input-normal"
+              }
             />
+            {erros.emissor && (
+              <span className="aviso-alteracao">{erros.emissor}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -89,12 +132,15 @@ function TelaDetalhes({ emissao, onVoltar }) {
               <span className="simbolo-monetario">R$</span>
               <input
                 type="number"
-                step="0.01" // Permite decimais como 12.50
+                step="0.01"
                 className="input-normal input-com-prefixo"
                 value={valor}
-                onChange={(e) => setValor(e.target.value)}
+                onChange={(e) => setValor(Number(e.target.value))}
               />
             </div>
+            {erros.valor && (
+              <span className="aviso-alteracao">{erros.valor}</span>
+            )}
           </div>
         </div>
 

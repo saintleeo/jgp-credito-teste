@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Body
-from datetime import datetime
+from datetime import datetime, date
 from database import SessionLocal
 from models import Emissao
 from typing import Optional
@@ -101,7 +101,7 @@ def listar_id(id: int):
         db.close()
 
 @router.put("/{id}")
-def editar_id(id: int, novos_dados: dict = Body(...)): # Adicionado Body(...)
+def editar_id(id: int, novos_dados: dict = Body(...)):
     db = SessionLocal()
     try:
         emissao_db = db.query(Emissao).filter(Emissao.id == id).first()
@@ -109,41 +109,83 @@ def editar_id(id: int, novos_dados: dict = Body(...)): # Adicionado Body(...)
         if not emissao_db:
             raise HTTPException(status_code=404, detail="Emissão não encontrada!")
 
-        # Atualização simples e direta
+        # ---- DATA ----
         if "data" in novos_dados:
             try:
-                # Converte a string 'YYYY-MM-DD' em um objeto date do Python
                 data_string = novos_dados["data"]
-                emissao_db.data = datetime.strptime(data_string, "%Y-%m-%d").date()
-            except ValueError:
-                raise HTTPException(status_code=400, detail="Formato de data inválido. Use AAAA-MM-DD")
-        
-        if "tipo" in novos_dados:
-            emissao_db.tipo = str(novos_dados["tipo"]).upper().strip()
-            
-        if "emissor" in novos_dados:
-            emissao_db.emissor = str(novos_dados["emissor"]).strip()
+                data_convertida = datetime.strptime(data_string, "%Y-%m-%d").date()
 
+                if data_convertida > date.today():
+                    raise HTTPException(
+                        status_code=400,
+                        detail="Data não pode ser futura"
+                    )
+
+                emissao_db.data = data_convertida
+
+            except ValueError:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Formato de data inválido. Use AAAA-MM-DD"
+                )
+
+        # ---- TIPO ----
+        if "tipo" in novos_dados:
+            tipo = str(novos_dados["tipo"]).upper().strip()
+            tipos_validos = ["CRI", "CRA", "DEB", "NC"]
+
+            if tipo not in tipos_validos:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Tipo inválido"
+                )
+
+            emissao_db.tipo = tipo
+
+        # ---- EMISSOR ----
+        if "emissor" in novos_dados:
+            emissor = str(novos_dados["emissor"]).strip()
+
+            if len(emissor) < 3:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Emissor deve ter ao menos 3 caracteres"
+                )
+
+            emissao_db.emissor = emissor
+
+        # ---- VALOR ----
         if "valor" in novos_dados:
             try:
-                # Converte e arredonda antes de salvar
-                emissao_db.valor = round(float(novos_dados["valor"]), 2)
-            except (ValueError, TypeError):
-                raise HTTPException(status_code=400, detail="Valor numérico inválido")
+                valor = round(float(novos_dados["valor"]), 2)
 
+                if valor < 0:
+                    raise HTTPException(
+                        status_code=400,
+                        detail="Valor não deve ser negativo!"
+                    )
+
+                emissao_db.valor = valor
+
+            except (ValueError, TypeError):
+                raise HTTPException(
+                    status_code=400,
+                    detail="Valor numérico inválido"
+                )
+
+        # ---- LINK (opcional, sem regra rígida) ----
         if "link" in novos_dados:
             emissao_db.link = novos_dados["link"]
 
         db.commit()
         db.refresh(emissao_db)
         return emissao_db
-    
+
     except HTTPException as http_e:
         raise http_e
     except Exception as e:
         db.rollback()
-        # Esse print aparecerá no seu terminal onde o Python está rodando
-        print(f"ERRO DE SISTEMA: {e}") 
-        raise HTTPException(status_code=400, detail=str(e))
+        print(f"ERRO DE SISTEMA: {e}")
+        raise HTTPException(status_code=400, detail="Erro ao editar emissão")
     finally:
         db.close()

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Dashboard from "./Dashboard";
 
-import { formatarData, formatarMoeda } from "../utils/formatters";
+import { formatarData } from "../utils/formatters";
 
 function TelaListagem({ emissoes, onVerDetalhes, stats, onFiltrar }) {
     //Estados para cada filtro
