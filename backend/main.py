@@ -9,9 +9,12 @@ app = FastAPI()
 app.include_router(emissoes.router)
 app.mount("/", StaticFiles(directory="../frontend/dist", html=True), name="frontend")
 
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[frontend_url],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
