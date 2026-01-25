@@ -1,4 +1,3 @@
-
 import {
   PieChart,
   Pie,
@@ -9,8 +8,8 @@ import {
 } from "recharts";
 
 const CORES_POR_TIPO = {
-  CRA: "#003366",
-  CRI: "#2e7d32",
+  CRA: "#2e7d32",
+  CRI: "#1976d2",
   DEB: "#ef6c00",
   NC: "#9a0d51",
 };
@@ -22,7 +21,8 @@ const formatarMoeda = (valor) =>
   }).format(valor);
 
 const formatarMoedaCurta = (valor) => {
-  if (valor >= 1_000_000_000) return `R$ ${(valor / 1_000_000_000).toFixed(1)}B`;
+  if (valor >= 1_000_000_000)
+    return `R$ ${(valor / 1_000_000_000).toFixed(1)}B`;
   if (valor >= 1_000_000) return `R$ ${(valor / 1_000_000).toFixed(1)}M`;
   return formatarMoeda(valor);
 };
@@ -60,12 +60,12 @@ export default function Dashboard({ stats }) {
               outerRadius={80}
               label={({ value }) => formatarMoedaCurta(value)}
             >
-              {stats.por_tipo.map((item, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={CORES_POR_TIPO[item.tipo] || "#999"}
-                />
-              ))}
+              {stats.por_tipo.map((item, index) => {
+                const cor =
+                  CORES_POR_TIPO[item.tipo.toUpperCase().trim()] || "#999";
+
+                return <Cell key={`cell-${index}`} fill={cor} />;
+              })}
             </Pie>
 
             <Tooltip formatter={(value) => formatarMoeda(value)} />
