@@ -109,7 +109,6 @@ def editar_id(id: int, novos_dados: dict = Body(...)):
         if not emissao_db:
             raise HTTPException(status_code=404, detail="Emissão não encontrada!")
 
-        # ---- DATA ----
         if "data" in novos_dados:
             try:
                 data_string = novos_dados["data"]
@@ -129,7 +128,6 @@ def editar_id(id: int, novos_dados: dict = Body(...)):
                     detail="Formato de data inválido. Use AAAA-MM-DD"
                 )
 
-        # ---- TIPO ----
         if "tipo" in novos_dados:
             tipo = str(novos_dados["tipo"]).upper().strip()
             tipos_validos = ["CRI", "CRA", "DEB", "NC"]
@@ -142,7 +140,6 @@ def editar_id(id: int, novos_dados: dict = Body(...)):
 
             emissao_db.tipo = tipo
 
-        # ---- EMISSOR ----
         if "emissor" in novos_dados:
             emissor = str(novos_dados["emissor"]).strip()
 
@@ -154,7 +151,6 @@ def editar_id(id: int, novos_dados: dict = Body(...)):
 
             emissao_db.emissor = emissor
 
-        # ---- VALOR ----
         if "valor" in novos_dados:
             try:
                 valor = round(float(novos_dados["valor"]), 2)
@@ -173,7 +169,6 @@ def editar_id(id: int, novos_dados: dict = Body(...)):
                     detail="Valor numérico inválido"
                 )
 
-        # ---- LINK (opcional, sem regra rígida) ----
         if "link" in novos_dados:
             emissao_db.link = novos_dados["link"]
 

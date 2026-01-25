@@ -38,7 +38,7 @@ function App() {
       setEmissaoSelecionada(res.data);
       setTelaAtual("detalhes");
     } catch (err) {
-      // Adicionado o (err) aqui
+
       alert("Não foi possível carregar os dados atualizados.");
     }
   };

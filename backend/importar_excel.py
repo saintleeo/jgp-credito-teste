@@ -10,16 +10,14 @@ def importar():
         return
 
     df = pd.read_excel(caminho)
-    # Limpeza básica (padrão estágio: simples e eficiente)
+
     df.columns = [c.lower() for c in df.columns]
     df['data'] = pd.to_datetime(df['data']).dt.date
     df['valor'] = pd.to_numeric(df['valor'], errors='coerce').fillna(0)
 
-    # Cria a tabela no banco
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     
-    # Salva os dados
     df.to_sql('emissoes', con=engine, if_exists='append', index=False)
     print("Dados importados com sucesso!")
 

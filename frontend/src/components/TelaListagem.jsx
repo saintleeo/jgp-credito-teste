@@ -18,8 +18,8 @@ function TelaListagem({ emissoes, onVerDetalhes, stats, onFiltrar }) {
       });
     };
   
-    const [campoOrdenacao, setCampoOrdenacao] = useState("id"); // Coluna ativa
-    const [direcao, setDirecao] = useState("asc"); // 'asc' ou 'desc'
+    const [campoOrdenacao, setCampoOrdenacao] = useState("id");
+    const [direcao, setDirecao] = useState("asc");
     const [menuAberto, setMenuAberto] = useState(null);
   
     const dadosOrdenados = [...emissoes].sort((a, b) => {
@@ -96,7 +96,7 @@ function TelaListagem({ emissoes, onVerDetalhes, stats, onFiltrar }) {
                         setMenuAberto(menuAberto === "data" ? null : "data")
                       }
                     >
-                      ≔ {/* Adicionei o ícone de engrenagem aqui */}
+                      ≔ 
                     </button>
                   </div>
                   {menuAberto === "data" && (
@@ -122,7 +122,7 @@ function TelaListagem({ emissoes, onVerDetalhes, stats, onFiltrar }) {
                       }
                     >
                       ≔{" "}
-                      {/* Substituí o caractere estranho por um ícone visível */}
+                      
                     </button>
                   </div>
                   {menuAberto === "valor" && (

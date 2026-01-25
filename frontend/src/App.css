@@ -5,7 +5,7 @@ body,
 .detalhes-wrapper {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
-  color: #334155; /* Um cinza escuro mais suave que o preto puro */
+  color: #334155;
 }
 
 .app-container {
@@ -109,7 +109,7 @@ button:hover {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Espaço entre a label e o input */
+  gap: 8px;
 }
 
 .form-group label {
@@ -149,8 +149,6 @@ table thead th {
 }
 
 .th-ordenavel {
-  /* Mantém o sticky que definimos acima, mas precisa de relative 
-     para o menu suspenso se posicionar dentro dele */
   position: sticky !important;
   top: 0;
 }
@@ -159,10 +157,9 @@ table thead th {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 100; /* Muito maior que o th */
+  z-index: 100; 
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  /* ... restante do seu estilo ... */
 }
 .tag-CRI {
   background: #e3f2fd;
@@ -194,38 +191,37 @@ table thead th {
   font-weight: bold;
 }
 
-/* Centraliza o card na tela inteira */
 .detalhes-wrapper {
-  position: fixed; /* Fixa o fundo na tela toda, ignorando os pais */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; /* Largura total da janela do navegador */
-  height: 100vh; /* Altura total da janela do navegador */
-  background-color: #e5e1e1; /* O cinza de fundo */
+  width: 100vw; 
+  height: 100vh; 
+  background-color: #e5e1e1; 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Garante que fique na frente de qualquer tela branca */
+  z-index: 9999;
   padding: 20px;
   box-sizing: border-box;
 }
 
-/* O Card estilizado */
+
 .detalhes-card {
   background-color: #ffffff;
   width: 100%;
   max-width: 550px;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
-  position: relative; /* Mantém o card dentro do wrapper */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); 
+  position: relative; 
 }
 
-/* Grid para os campos ficarem organizados */
+
 .detalhes-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Duas colunas */
-  gap: 20px; /* Espaço entre os inputs */
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px; 
   margin-bottom: 30px;
 }
 
@@ -233,7 +229,7 @@ table thead th {
   grid-column: span 2;
 }
 
-/* Títulos e Labels */
+
 .detalhes-titulo {
   font-family: "Inter", sans-serif;
   font-weight: 700;
@@ -246,7 +242,7 @@ table thead th {
 
 .form-group label {
   font-family: "Inter", sans-serif;
-  font-weight: 600; /* Peso Semi-negrito */
+  font-weight: 600; 
   font-size: 0.75rem;
   color: #64748b;
   display: block;
@@ -254,26 +250,26 @@ table thead th {
   text-transform: uppercase;
 }
 
-/* Botões */
+
 .btn-voltar-top {
   background: none;
   border: none;
-  color: #666; /* Um cinza neutro em vez de azul */
+  color: #666;
   cursor: pointer;
   font-weight: 600;
   margin-bottom: 20px;
   padding: 5px 0;
-  transition: color 0.2s; /* Transição suave */
+  transition: color 0.2s; 
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-/* Hover Suave */
+
 .btn-voltar-top:hover {
-  color: #333; /* Escurece levely o cinza, sem ficar azul */
-  text-decoration: underline; /* Adiciona apenas o sublinhado */
-  background: none; /* Garante que não apareça fundo azul */
+  color: #333; 
+  text-decoration: underline; 
+  background: none; 
 }
 
 .btn-salvar-detalhes {
@@ -294,12 +290,12 @@ table thead th {
 
 .input-normal {
   font-family: "Inter", sans-serif;
-  font-weight: 400; /* Peso Normal */
+  font-weight: 400; 
   padding: 12px;
-  border: 2px solid #ced4da; /* Borda mais grossa e escura */
+  border: 2px solid #ced4da;
   border-radius: 8px;
   font-size: 1rem;
-  background-color: #f8f9fa; /* Fundo levemente cinza no input */
+  background-color: #f8f9fa; 
   color: #495057;
   transition: all 0.2s ease-in-out;
 }
@@ -307,7 +303,7 @@ table thead th {
 .input-normal:focus {
   outline: none;
   border-color: #007bff;
-  background-color: #ffffff; /* Fica branco puro ao digitar */
+  background-color: #ffffff; 
   box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
 }
 
@@ -325,7 +321,7 @@ table thead th {
 }
 
 .th-ordenavel {
-  position: relative; /* Necessário para o menu se posicionar em relação a ele */
+  position: relative; 
 }
 
 .header-cell {
@@ -338,7 +334,7 @@ table thead th {
 .btn-filtro-icone {
   background: none;
   border: none;
-  color: #fff; /* Supondo que seu header seja escuro */
+  color: #fff; 
   cursor: pointer;
   font-size: 14px;
   padding: 2px 5px;
@@ -349,16 +345,16 @@ table thead th {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* A CAIXINHA SUSPENSA */
+
 .menu-suspenso {
   position: absolute;
-  top: 100%; /* Aparece logo abaixo do título */
+  top: 100%; 
   left: 0;
   background: white;
   border: 1px solid #ddd;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 100; /* Garante que fique por cima de tudo */
+  z-index: 100; 
   min-width: 120px;
   display: flex;
   flex-direction: column;
@@ -383,7 +379,7 @@ table thead th {
 }
 
 .btn-filtro-icone {
-  background: rgba(255, 255, 255, 0.1); /* Um fundo bem clarinho */
+  background: rgba(255, 255, 255, 0.1); 
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   padding: 2px 6px;
@@ -395,12 +391,12 @@ table thead th {
 
 .btn-filtro-icone:hover {
   background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1); /* Dá um zoom de leve no ícone */
+  transform: scale(1.1); 
 }
 
-/* Garante que o menu suspenso não herde cores estranhas */
+
 .menu-suspenso button {
-  color: #333 !important; /* Texto escuro dentro do menu branco */
+  color: #333 !important;
   font-weight: normal;
 }
 
@@ -436,7 +432,7 @@ table thead th {
 }
 
 .input-com-prefixo {
-  padding-left: 40px !important; /* Abre espaço para o R$ não atropelar o número */
+  padding-left: 40px !important;
 }
 
 .dashboard-container {

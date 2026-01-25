@@ -64,7 +64,6 @@ export default function Dashboard({ stats }) {
 
             <Tooltip formatter={(value) => formatarMoeda(value)} />
 
-            {/* Legenda apenas com o nome do tipo */}
             <Legend formatter={(value) => value} />
           </PieChart>
         </ResponsiveContainer>
