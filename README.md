@@ -1,4 +1,4 @@
-# Teste Técnico – Estágio em Desenvolvimento Fullstack
+# Teste Técnico – JGP Crédito
 
 ## 📌 Visão Geral
 
