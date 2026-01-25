@@ -463,7 +463,11 @@ table thead th {
 
 .grafico-wrapper {
   width: 100%;
-  min-height: 280px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  min-height: 300px;
 }
 
 .dashboard {
@@ -485,10 +489,12 @@ table thead th {
 }
 
 .card {
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  flex: 1 1 200px;
   background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
 .card h3 {
@@ -522,5 +528,14 @@ table thead th {
     display: flex;
     flex-direction: column;
     gap: 15px;
+  }
+
+  .card {
+    flex: 1 1 100%;
+  }
+  
+  .grafico-wrapper {
+    padding: 10px; 
+    overflow-x: hidden;
   }
 }
