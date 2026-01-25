@@ -36,8 +36,9 @@ body,
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  min-width: 150px;
+  min-width: 120px;
   box-sizing: border-box;
+  flex: 1 1 150px;
 }
 
 .btn-limpar:hover {
@@ -45,6 +46,7 @@ body,
 }
 
 table {
+  min-width: 650px;
   width: 100%;
   border-collapse: collapse;
   background: white;
@@ -133,9 +135,11 @@ input.input-alterado {
 .tabela-wrapper {
   max-height: 400px;
   overflow-y: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid #ddd;
   border-radius: 8px;
-  margin-top: 10px;
+  margin-top: 20px;
   position: relative;
 }
 
@@ -499,3 +503,20 @@ table thead th {
   color: #555;
 }
 
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .header-cell {
+    font-size: 0.8rem;
+  }
+
+  /* Ajusta o Dashboard se ele tiver cards */
+  .dashboard-stats { 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
