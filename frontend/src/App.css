@@ -441,6 +441,11 @@ table thead th {
 
 .dashboard-container {
   padding: 20px;
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  width: 100%;
 }
 
 .cards-resumo {
@@ -513,7 +518,6 @@ table thead th {
     font-size: 0.8rem;
   }
 
-  /* Ajusta o Dashboard se ele tiver cards */
   .dashboard-stats { 
     display: flex;
     flex-direction: column;
