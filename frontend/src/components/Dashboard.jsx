@@ -21,6 +21,12 @@ const formatarMoeda = (valor) =>
     currency: "BRL",
   }).format(valor);
 
+const formatarMoedaCurta = (valor) => {
+  if (valor >= 1_000_000_000) return `R$ ${(valor / 1_000_000_000).toFixed(1)}B`;
+  if (valor >= 1_000_000) return `R$ ${(valor / 1_000_000).toFixed(1)}M`;
+  return formatarMoeda(valor);
+};
+
 export default function Dashboard({ stats }) {
   if (!stats || !stats.por_tipo?.length) return null;
 
@@ -43,7 +49,7 @@ export default function Dashboard({ stats }) {
       <div className="dashboard-chart">
         <h3 className="chart-title">Distribuição por Tipo</h3>
 
-        <ResponsiveContainer width="100%" height={260}>
+        <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
               data={stats.por_tipo}
@@ -51,8 +57,8 @@ export default function Dashboard({ stats }) {
               nameKey="tipo"
               cx="50%"
               cy="50%"
-              outerRadius={90}
-              label={({ value }) => formatarMoeda(value)}
+              outerRadius={80}
+              label={({ value }) => formatarMoedaCurta(value)}
             >
               {stats.por_tipo.map((item, index) => (
                 <Cell
